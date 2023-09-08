@@ -1,0 +1,78 @@
+<style>
+
+</style>
+<image src="{{ asset('assets/img/logo/Logo_UIASS_bkack2.png') }}" >
+<table style="width: 100%;" cellspacing="0">
+    <tbody>
+
+        <tr>
+            <td style="width:45%; text-align:center"><img style="width:200px;margin: 0 auto;" src="{{ asset('assets/img/logo/Logo_UIASS_bkack2.png') }}" alt="Logo"></td>
+            <td style="width:1%;"></td>
+            <td style="width:80%;"><h1>FEUILLE D'APPEL </h1></td>
+        </tr>
+        <tr>
+           <td style="width:25%; text-align:center"></td>
+            <td style="width:1%;"></td>
+            <td  style="width:50%;"><h3>{% for md in sean %} {{ md.etablisement }} {% endfor %}</h3></td>
+        </tr>
+        <tr>
+           <td style="width:25%; text-align:center"></td>
+            <td style="width:1%;"></td>
+            <td  style="width:70%;"><h3>{% for md in sean %} {{ md.formation }} {% endfor %}</h3></td>
+        </tr>
+        <tr>
+           <td style="width:25%; text-align:center"></td>
+            <td style="width:1%;"></td>
+            <td  style="width:80%;"><h3>{% for md in sean %} {{ md.promotion }} {% endfor %}</ph3></td>
+        </tr>
+    
+    </tbody>
+
+</table>
+<br/>
+<div class="row">
+  <div class="column left" >
+  <div style="display: grid; grid-template-columns: 1fr; width: 100%; gap: 10px;" class="grid-container">
+  {% for md in sean %}
+
+  <div style="display: flex; flex-direction: column; border: 1px solid #ccc; padding: 10px;" class="item">
+    <div style="margin-bottom: 5px;font-weight: bold; border-bottom: 1px solid #000;">
+      ID_Séance / Date: {{md.ID_Séance}} / {{md.Date_Séance}} /   HD: {{md.Heure_Debut}} HF: {{md.Heure_Fin}}
+    </div>
+    <div style="margin-bottom: 5px; font-weight:bold; border-bottom: 1px solid #000;">
+      MODULE/ELEMENT : 
+    </div>
+    <div style="margin-bottom: 5px; ">
+       {{md.module}} - {{md.element}}
+    </div>
+    <div style="margin-bottom: 5px; font-weight: bold; border-bottom: 1px solid #000;">
+      PROFESSEUR : 
+    </div>
+    <div style="margin-bottom: 5px; ">
+      {{md.nom}} / {{md.prenom}}
+    </div>
+    <div style="margin-bottom: 5px; font-weight: bold; border-bottom: 1px solid #000;">
+      CLASSE/SALLE : 
+    </div>
+    <div style="margin-bottom: 5px; ">
+      {{md.salle}} / {{md.Groupe}}
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+  </div>
+   <div class="column right" >
+   
+  <div style="font-size:10px;">
+  {% for a in A %}
+A:{{a.A}} {% endfor %}<hr/>{% for b in B %}
+B: {{b.B}}{% endfor %}<hr/>{% for c in C %}
+C: {{c.C}}{% endfor %}<hr/>{% for d in D %}
+D: {{d.D}}{% endfor %}<hr/>{% for t in T %} 
+Total: {{t.T}}{% endfor %} 
+
+  </div>
+  </div>
+  </div>

@@ -1,0 +1,34 @@
+                     
+
+
+  <span>Categorie</span>
+  <span>A</span>
+  <span>B</span>
+  <span>C</span> 
+  <span>D</span> 
+  {# <span></span>
+  <span>AD</span>
+  <span>BD</span>  #}
+	
+	
+	
+	
+  
+  <span class="row-label">Nbre Etudiants</span>
+  {% set A = "0" %}
+  {% set B = "0" %}
+  {% set C = "0" %}
+  {% set D = "0" %}
+
+  {% for count in counts %}
+  <div class="box">{{ count.A}} </div>
+  <div class="box">{{ count.B }}</div>
+  <div class="box">{{ count.C }}</div>
+  <div class="box">{{ count.D }}</div>
+  {% endfor %}
+  
+
+  {# <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+    #}

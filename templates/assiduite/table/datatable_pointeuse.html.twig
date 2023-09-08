@@ -1,0 +1,34 @@
+  <table id="dtDynamicVerticalScrollExample_pointeuse" class="table table-striped table-bordered table-sm" cellspacing="0"  width="100%" height="100%">
+
+  <thead>
+    <tr>
+    
+      <th >X
+      </th>
+      <th >Salle
+      </th>
+      <th >Sn
+      </th>
+      <th >Ip 
+      </th>
+      <th >C-Salle 
+      </th>
+
+    </tr>
+  </thead>
+  <tbody>
+     {% for salle in salles %}
+                <tr class="{{salle.IP}}">
+                <td><label class="container"><input name='chk' value="{{salle.IP}}" type="checkbox"><span class="checkmark"></span></label></td>
+                <td>{{salle.designation}}</td>
+                <td>{{salle.sn}}</td>
+                <td>{{salle.IP}}</td>
+                <td>{{salle.code_salle}}</td>
+               
+                
+                </tr>
+                {% endfor %}
+    
+  </tbody>
+ 
+</table>

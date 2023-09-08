@@ -1,0 +1,369 @@
+ {# <table  class="table" style="margin-top:140px;  padding:0px; margin-left:-100px; width: 620px !important; font-size:6px;" id="customers">
+    <thead>
+      <tr>
+        <th >ID Séance</th>
+        <th style="width:5%; font-size:7px;">Type Sénce</th>
+        <th style="width:40%; font-size:7px;">Module</th>        
+        <th style="width:60%; font-size:7px;">Element</th>
+        <th >Date_Séance</th>  
+        <th style="text-align:center; width:10%; font-size:7px;">Heure Début</th>
+                <th style="text-align:center; width:10%; font-size:7px;">Heure Fin</th>
+                      <th style="text-align:center; width:10%; font-size:7px;">Volume Horaire</th>
+                              <th style="text-align:center; width:10%; font-size:7px;">Categorie</th>
+                                        </tr>
+    </thead>
+    <tbody>
+                    {% set semain = 0 %}                                            
+                    {% for et in etud %}
+                        {% if et.Semaine != semain %}
+                        <tr style="background:lightgrey; text-align:center;letter-spacing:1.5px;">
+    <td colspan=6>{{et.DateD}} au {{ et.DateF}}</td>
+    </tr>
+                    {% set semain = et.Semaine %}
+                    {% endif %}
+                    <tr>
+                         
+                   
+      
+     
+        <td >{{et.ID_Séance}} </td>
+        <td >{{et.abreviation}}</td>
+         {% for el in modules %}
+         {% if el.code == et.module %}
+        <td>{{el.designation}} </td>
+        {% endif %}
+        {% endfor %}
+
+         {% for ele in elements %}
+         {% if ele.code == et.element %}
+              <td>{{ele.designation}} </td>
+
+        {% endif %}
+        {% endfor %}
+        
+          <td>{{et.Date_Séance}}</td>
+        <td style="text-align:center;">{{et.hd}}</td>
+                <td style="text-align:center;">{{et.hf}}</td>
+                <td style="text-align:center;">{{ et.volume|round(1, 'floor') }}</td>
+           {% if (et.Categorie == "D" or et.Categorie == "C") and et.Categorie_Enseig == "Z" %}
+
+                <td style="text-align:center;">{{et.Categorie_Enseig}}</td>
+           {% elseif (et.Categorie_Enseig == "AD" or et.Categorie_Enseig == "BD") %}
+
+                <td style="text-align:center;">{{et.Categorie_Enseig}}</td>
+          {% else %}
+               <td style="text-align:center;">{{et.Categorie}}</td>
+
+                                  {% endif %}
+</tr>
+
+{% endfor %} #}
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.left {
+  width: 65%;
+}
+
+.right {
+  width: 25%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+body { margin-top: 0px;margin-bottom: 0px;
+font-size:10px;
+ }
+ #customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size : 8px;
+  border-collapse: collapse;
+ 
+
+
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+    font-size:10px;
+ 
+  text-align: left;
+  background-color: lightblue;
+  color: black;
+  
+}
+
+.td{
+  border-bottom:1px solid #000;
+}
+
+.tdsmall{
+  font-weight: bold;
+  width:30%;
+}
+ {# td { 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis 
+} #}
+
+       .page-number:before {
+  content: "Page " counter(page);
+}
+</style>
+</head>
+{% set page = 0 %}
+
+<body>
+
+<table style="width: 100%; margin:40px 100px 0 100px" cellspacing="0">
+  <tr>
+    <td style="text-align: right;">
+      <img id="img" style="width:20%;margin-right: 20px;" src="{{ asset('assets/img/logo/Logo_UIASS_bkack2.png') }}" />
+    </td>
+    <td style="text-align: left;">
+      <h1 style="font-size: 1.5em; font-family: Courier, Helvetica, serif; margin: 0; padding: 0;">
+        Situation<br>Présentielle
+      </h1>
+    </td>
+  </tr>
+</table>
+  {# <br> #}
+  {# <p style="text-align: center; font-size: 13px; font-family: Impact, bold, sans-serif;"></p> #}
+
+{# <table style="width: 100%; margin:40px 100px 0 100px" cellspacing="0">
+    <tbody>
+
+        <tr>
+  <td style="text-align:center; width: auto; padding: 0; vertical-align: middle;">
+    <img style="width:20%; margin: 0; padding: 0;" src="{{ asset('assets/img/logo/Logo_UIASS_bkack2.png') }}" alt="Logo">
+  </td>
+  <td style="text-align:center; width: auto; padding: 0; vertical-align: middle;">
+    <h1 style="font-size: 1.5em; font-family: Courier, Helvetica, serif; margin: 0; padding: 0;">
+      Situation<br>Présentielle
+    </h1>
+  </td>
+</tr>
+        </br>
+        </br>
+       
+    
+    </tbody>
+
+</table> #}
+<br/>
+<div class="row">
+  <div class="column" >
+   <table style="width: 100%; margin:0 40px" cellspacing="0">
+    <tbody>
+
+        <tr>
+          <td style="padding-top:5px" class="td tdsmall">Id Admission</td>
+          {# <hr> #}
+          <td style="padding-top:5px" class="td">:&nbsp;&nbsp;&nbsp;{{admission}} </td>
+          {# <hr> #}
+        </tr>
+        <tr>
+          <td style="padding-top:5px" class="td tdsmall">Etudiant</td>
+          {# <hr> #}
+          <td style="padding-top:5px" class="td">:&nbsp;&nbsp;&nbsp;{{Nom}} {{Prenom}} </td>
+          {# <hr> #}
+        </tr>
+        <tr>
+          <td style="padding-top:5px" class="td tdsmall">Etablissement</td>
+          {# <hr> #}
+          <td style="padding-top:5px" class="td">:&nbsp;&nbsp;&nbsp;{{Etab}}</td>
+          {# <hr> #}
+        </tr>
+        <tr>
+          <td style="padding-top:5px" class="td tdsmall">Formation</td>
+          {# <hr> #}
+          <td style="padding-top:5px" class="td">:&nbsp;&nbsp;&nbsp;{{for}} </td>
+          {# <hr> #}
+        </tr>
+        <tr>
+          <td style="padding-top:5px" class="td tdsmall">Promotion</td>
+          {# <hr> #}
+          <td style="padding-top:5px" class="td">:&nbsp;&nbsp;&nbsp;{{pro}}</td>
+          {# <hr> #}
+        </tr>
+      
+
+        {# <tr>
+            <td >Id Admission :  {{admission}} </td>
+            <td >Etudiant : {{Nom}} {{Prenom}}</td>
+            <td ></td>
+            <td >&nbsp;&nbsp;&nbsp;</td>
+            <td >&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+        <td style"width:95%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        </tr>
+       
+        <tr>
+            <td >Etablissement : {{Etab}}</td>
+            <td >Formation : {{for}} </td>
+            <td ></td>
+            <td >&nbsp;&nbsp;&nbsp;</td>
+            <td >&nbsp;&nbsp;&nbsp;</td>
+           
+        </tr>
+         <tr>
+        <td style"width:95%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        </tr>
+        <tr>
+            <td >Promotion : {{pro}}</td>
+            <td ></td>
+            <td ></td>
+            <td ></td>
+            <td ></td>
+           
+        </tr> #}
+
+
+        
+         {# <tr>
+        <td style"width:95%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        </tr>
+        <tr>
+            <td >Formation : {{for}}</td>
+            <td ></td>
+            <td ></td>
+            <td ></td>
+            <td ></td>
+           
+        </tr>
+         <tr>
+        <td style"width:95%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        <td style"width:1%"><hr/></td>
+        </tr>
+        <tr>
+            <td >Promotion : {{pro}}</td>
+            <td ></td>
+            <td ></td>
+            <td ></td>
+            <td ></td>
+           
+        </tr> #}
+      
+       
+        {# <tr>
+            <td >&nbsp;&nbsp;<h5 style="margin-left:100px;"> (A-Z) : Présent - B : Retard  C & D & AD & BD : Absent - P : Capitaliser </h5></td>
+            
+           
+        </tr> #}
+
+    
+    </tbody>
+</table>
+<div style="text-align: center">
+    <h6 style="margin:10 40px"> (A-Z) : Présent - B : Retard  C & D & AD & BD : Absent - P : Capitaliser </h6>
+</div>
+
+ 
+<div>
+</br>
+</br>
+</br>
+<table  class="table" cellspacing="0" id="customers" style="margin:10px 20px 0 20px;">
+    <thead>
+      <tr >
+        <th >ID Séance</th>
+        <th >Type Sénce</th>
+        <th >Module</th>        
+        <th >Element</th>
+        <th >Date_Séance</th>  
+        <th>Heure Début</th>
+                <th >Heure Fin</th>
+                      <th >Volume Horaire</th>
+                              <th>Categorie</th>
+                                        </tr>
+    </thead>
+    <tbody>
+                    {% set semain = 0 %}                                           
+                    {% for et in etud %}
+                        {% if et.Semaine != semain %}
+                        <tr style="background:lightgrey; ">
+    <td style="text-align:center;letter-spacing:1.5px;" colspan=9>{{et.DateD | date('Y-m-d')}} au {{ et.DateF | date('Y-m-d')}}</td>
+    </tr>
+                    {% set semain = et.Semaine %}
+                    {% endif %}
+                    <tr> 
+                         
+                   
+      
+     
+        <td >{{et.ID_Séance}} </td>
+        <td >{{et.abreviation}}</td>
+         {# {% for el in modules %}
+         {% if el.code == et.module %} #}
+        <td>{{et.module}} </td>
+        {# {% endif %}
+        {% endfor %} #}
+
+         {# {% for ele in elements %}
+         {% if ele.code == et.element %} #}
+              <td>{{et.element}} </td>
+
+        {# {% endif %}
+        {% endfor %} #}
+        
+          <td>{{et.Date_Séance}}</td>
+        <td style="text-align:center;">{{et.hd}}</td>
+                <td style="text-align:center;">{{et.hf}}</td>
+                <td style="text-align:center;">{{ et.volume|round(1, 'floor') }}</td>
+           {% if (et.Categorie == "D" or et.Categorie == "C") and et.Categorie_Enseig == "Z" %}
+
+                <td style="text-align:center;">{{et.Categorie_Enseig}}</td>
+           {% elseif (et.Categorie_Enseig == "AD" or et.Categorie_Enseig == "BD") %}
+
+                <td style="text-align:center;">{{et.Categorie_Enseig}}</td>
+          {% else %}
+               <td style="text-align:center;">{{et.Categorie}}</td>
+
+                                  {% endif %}
+</tr>
+
+{% endfor %}
+    </tbody>
+      </table>
+      </div>
+   
+</body>
+</html>
+
+
