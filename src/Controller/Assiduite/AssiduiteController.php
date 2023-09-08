@@ -30,9 +30,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AssiduiteController extends AbstractController
 {
     private $em;
+    private $emUniv;
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->em = $doctrine->getManager();
+        $this->emUniv = $doctrine->getManager('univ');
     }
 
     #[Route('/', name: 'assiduite_assiduites_index')]
