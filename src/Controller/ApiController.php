@@ -1954,7 +1954,7 @@ if ($zk->connect() == 'true') {
                                     $checkinout->setUSERID($user->getUSERID());
                                     $checkinout->setSn($sn);
                                     $checkinout->setCHECKTIME($date_);
-                                    $checkinout->setMemoinfo("cpge");    
+                                    $checkinout->setMemoinfo("0809");    
                                     $em->persist($checkinout);
     
                                 }
