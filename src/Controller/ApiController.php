@@ -550,26 +550,35 @@ class ApiController extends AbstractController
 
         if($promotion == 366 || $promotion == 365) {
 
-            if ( $heure1 == "08:00:00" ||  $heure1 == "10:00:00"){
-                $heure1= date('H:i:s',strtotime('-15 minutes',strtotime($heure1)));
-                $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
-            }
-            elseif( $heure1 == "12:00:00"){
+            // if ( $heure1 == "08:00:00" ||  $heure1 == "10:00:00"){
+            //     $heure1= date('H:i:s',strtotime('-15 minutes',strtotime($heure1)));
+            //     $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            // }
+            // elseif( $heure1 == "12:00:00"){
 
-                $heure1= date('H:i:s',strtotime('+0 minutes',strtotime($heure1)));
-                $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            //     $heure1= date('H:i:s',strtotime('+0 minutes',strtotime($heure1)));
+            //     $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            // }
+            // elseif( $heure1 == "14:00:00"){
+            //     $heure1= date('H:i:s',strtotime('+45 minutes',strtotime($heure1)));
+            //     $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            // }
+            // elseif( $heure1 == "16:00:00"){
+            //     $heure1= date('H:i:s',strtotime('+45 minutes',strtotime($heure1)));
+            //     $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            // }
+            // else{
+            //     $heure1= $heure1;
+            //     $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            // }
+            if ( $heure1 == "08:00:00"){
+                $heure1= date('H:i:s',strtotime('-30 minutes',strtotime($heure1)));
+                $heure2= date('H:i:s',strtotime('+15 minutes',strtotime($heure1)));
             }
-            elseif( $heure1 == "14:00:00"){
-                $heure1= date('H:i:s',strtotime('+45 minutes',strtotime($heure1)));
-                $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
-            }
-            elseif( $heure1 == "16:00:00"){
-                $heure1= date('H:i:s',strtotime('+45 minutes',strtotime($heure1)));
-                $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
-            }
-            else{
-                $heure1= $heure1;
-                $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            elseif( $heure1 == "13:00:00" || $heure1 == "10:00:00" || $heure1 == "15:00:00" || $heure1 == "17:00:00" ){
+
+                $heure1= date('H:i:s',strtotime('-15 minutes',strtotime($heure1)));
+                $heure2= date('H:i:s',strtotime('+20 minutes',strtotime($heure1)));
             }
         }
 
@@ -854,21 +863,26 @@ class ApiController extends AbstractController
  {
     foreach($list as $etud){
         $xseance_absence = $em->getRepository(XseanceAbsences::class)->findOneBy(['ID_Admission'=>$etud['id_admission'],'ID_Séance'=>$seance]);
+        
+        // if(!$xseance_absence){
+        //     dd($etud['id_admission'] , $seance);
+        // }
+        
         $xseance_absence->setHeurePointage(new \DateTime($etud['pointage']));
         $xseance_absence->setCategorieSi($etud['categorie']);
         $em->persist($xseance_absence);
 
         // update in local
 
-        $id_admission = $etud['id_admission'];
-        $pointage = (new \DateTime($etud['pointage']))->format("H:i:s");
-        $categorie = $etud['categorie'];
+        // $id_admission = $etud['id_admission'];
+        // $pointage = (new \DateTime($etud['pointage']))->format("H:i:s");
+        // $categorie = $etud['categorie'];
 
-        $requete = "UPDATE `xseance_absences` SET `heure_pointage`='$pointage',`categorie_si`='$categorie' WHERE `id_séance` = '$seance' AND `id_admission` = '$id_admission'";
+        // $requete = "UPDATE `xseance_absences` SET `heure_pointage`='$pointage',`categorie_si`='$categorie' WHERE `id_séance` = '$seance' AND `id_admission` = '$id_admission'";
 
         // dd($requete);
-        $stmt = $emUniv->getConnection()->prepare($requete);
-        $newstmt = $stmt->executeQuery(); 
+        // $stmt = $emUniv->getConnection()->prepare($requete);
+        // $newstmt = $stmt->executeQuery(); 
     }
     $em->flush();
     return $list;
