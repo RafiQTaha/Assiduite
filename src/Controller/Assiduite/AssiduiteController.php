@@ -273,12 +273,12 @@ $result = $newstmt->fetchAll();
     {
         // die;
          //     $hour = date('H:i:s');
-    //  $date = '2022-10-07';
+    //  $date = '2023-09-11';
         $date = date('Y-m-d');
     $Today= new \DateTime(); 
     // $date =  $Today->format('Y-m-d');
     $hour = $Today->format('H:i:s');  
-    // $hour = '14:50:00';
+    // $hour = '14:10:00';
     //  $salleinf="SELECT * FROM psalles where abreviation='$sall'";
     //  $stmts= $this->em->getConnection()->prepare($salleinf);
     //  $stmts = $stmts->executeQuery();    
@@ -287,19 +287,19 @@ $result = $newstmt->fetchAll();
 
        //  dd($sa->code);
     //    $code = $sa['code'];
-        //  $salle="SELECT * FROM xseance_absences
-        //   INNER JOIN xseance ON xseance.ID_Séance=xseance_absences.ID_Séance
+         $salle="SELECT * FROM xseance_absences
+          INNER JOIN xseance ON xseance.ID_Séance=xseance_absences.ID_Séance
          
-        //  WHERE xseance.Date_Séance='$date' 
-        //  AND xseance.ID_Salle=(SELECT code FROM psalles where abreviation='$sall' LIMIT 1) 
-        //   AND '$hour' BETWEEN xseance.Heure_Debut 
-        //  AND xseance.Heure_Fin";
+         WHERE xseance.Date_Séance='$date' 
+         AND xseance.ID_Salle=(SELECT code FROM psalles where abreviation='$sall' LIMIT 1) 
+          AND '$hour' BETWEEN xseance.Heure_Debut 
+         AND xseance.Heure_Fin";
         // //  dd($salle);
 
-        //  $stmt = $this->em->getConnection()->prepare($salle);
-        //  $stmt = $stmt->executeQuery();    
-        //  $sean = $stmt->fetchAll();
-         $sean = " ";                  //a suprimer
+         $stmt = $this->emUniv->getConnection()->prepare($salle);
+         $stmt = $stmt->executeQuery();    
+         $sean = $stmt->fetchAll();
+        //  $sean = " ";                  //a suprimer
       
 
     //  }

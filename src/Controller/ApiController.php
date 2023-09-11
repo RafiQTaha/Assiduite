@@ -550,26 +550,35 @@ class ApiController extends AbstractController
 
         if($promotion == 366 || $promotion == 365) {
 
-            if ( $heure1 == "08:00:00" ||  $heure1 == "10:00:00"){
-                $heure1= date('H:i:s',strtotime('-15 minutes',strtotime($heure1)));
-                $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
-            }
-            elseif( $heure1 == "12:00:00"){
+            // if ( $heure1 == "08:00:00" ||  $heure1 == "10:00:00"){
+            //     $heure1= date('H:i:s',strtotime('-15 minutes',strtotime($heure1)));
+            //     $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            // }
+            // elseif( $heure1 == "12:00:00"){
 
-                $heure1= date('H:i:s',strtotime('+0 minutes',strtotime($heure1)));
-                $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            //     $heure1= date('H:i:s',strtotime('+0 minutes',strtotime($heure1)));
+            //     $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            // }
+            // elseif( $heure1 == "14:00:00"){
+            //     $heure1= date('H:i:s',strtotime('+45 minutes',strtotime($heure1)));
+            //     $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            // }
+            // elseif( $heure1 == "16:00:00"){
+            //     $heure1= date('H:i:s',strtotime('+45 minutes',strtotime($heure1)));
+            //     $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            // }
+            // else{
+            //     $heure1= $heure1;
+            //     $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            // }
+            if ( $heure1 == "08:00:00"){
+                $heure1= date('H:i:s',strtotime('-30 minutes',strtotime($heure1)));
+                $heure2= date('H:i:s',strtotime('+15 minutes',strtotime($heure1)));
             }
-            elseif( $heure1 == "14:00:00"){
-                $heure1= date('H:i:s',strtotime('+45 minutes',strtotime($heure1)));
-                $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
-            }
-            elseif( $heure1 == "16:00:00"){
-                $heure1= date('H:i:s',strtotime('+45 minutes',strtotime($heure1)));
-                $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
-            }
-            else{
-                $heure1= $heure1;
-                $heure2= date('H:i:s',strtotime('+59 seconds',strtotime($heure1)));
+            elseif( $heure1 == "13:00:00" || $heure1 == "10:00:00" || $heure1 == "15:00:00" || $heure1 == "17:00:00" ){
+
+                $heure1= date('H:i:s',strtotime('-15 minutes',strtotime($heure1)));
+                $heure2= date('H:i:s',strtotime('+20 minutes',strtotime($heure1)));
             }
         }
 
@@ -741,7 +750,7 @@ class ApiController extends AbstractController
 
  }
 
- static function insert_xseance($idseance,$em)
+ static function insert_xseance($idseance,$em,$emUniv)
  {
     // $date= date_format(date(), 'Y-m-d');
 
@@ -771,16 +780,50 @@ class ApiController extends AbstractController
               $seance->setHeureFin(new \DateTime($data['heure_fin']));
             $seance->setDateSys(new \DateTime());
             $em->persist($seance);
+
+
+            $code_seance = $data['code_seance'];
+            $type_seance = $data['type_seance'];
+            $etab_code = $data['etab_code'];
+            $form_code = $data['form_code'];
+            $pormo_code = $data['pormo_code'];
+            $annee = $data['annee'];
+            $anneeLib = $data['anneeLib'];
+            $semestre = $data['semestre'];
+            $groupe = $data['groupe'];
+            $module = $data['module'];
+            $element = $data['element'];
+            $enseignant = $data['enseignant'];
+            $code_salle = $data['code_salle'];
+            $date_seance = (new \DateTime($data['date_seance']))->format("Y-m-d");
+            $semaine = $data['semaine'];
+            $heure_debut = (new \DateTime($data['heure_debut']))->format("H:i:s");
+            $heure_fin = (new \DateTime($data['heure_fin']))->format("H:i:s");
+            $datesys = (new \DateTime())->format("Y-m-d");
+            
+            // dd($date_seance,$heure_debut,$heure_fin,$datesys);
+            // insert xseance in local database
+
+            $requete = "INSERT INTO `xseance`(`id_séance`, `typeséance`, `id_etablissement`, `id_formation`, `id_promotion`, `id_année`, `année_lib`, `id_semestre`, `groupe`, `id_module`, `id_element`, `id_enseignant`, `id_salle`, `date_séance`, `semaine`, `heure_debut`, `heure_fin`, `date_sys`, `statut`) VALUES ('$code_seance','$type_seance','$etab_code','$form_code','$pormo_code','$annee','$anneeLib','$semestre','$groupe','$module','$element','$enseignant','$code_salle','$date_seance','$semaine','$heure_debut','$heure_fin','$datesys','1')";
+
+
+            // dd($requete);
+            $stmt = $emUniv->getConnection()->prepare($requete);
+            $newstmt = $stmt->executeQuery(); 
         }
         $em->flush();
+
+        
+
+
     return $seance_info;
 
 
  }
- static function insert_xseance_absc($list,$seance,$em)
+ static function insert_xseance_absc($list,$seance,$em,$emUniv)
  {
-    // dd($list);
-    foreach($list as $etud){
+     foreach($list as $etud){
+        // dd($etud['nom']);
         $xseance_absence = new XseanceAbsences();
         $xseance_absence->setIDAdmission($etud['id_admission']);
         $xseance_absence->setIDSéance($seance);
@@ -792,34 +835,79 @@ class ApiController extends AbstractController
         $em->persist($xseance_absence);
 
 
+        
+        // insert xseance in local database
+
+        $id_admission = $etud['id_admission'];
+        $id_seance = $seance;
+        $nom = addslashes($etud['nom']);
+        $prenom = addslashes($etud['prenom']);
+        $date = (new \DateTime($etud['date']))->format("Y-m-d");
+        $pointage = (new \DateTime($etud['pointage']))->format("H:i:s");
+        $categorie = $etud['categorie'];
+
+        $requete = "INSERT INTO `xseance_absences`(`id_admission`, `id_séance`, `nom`, `prénom`, `date_pointage`, `heure_pointage`, `categorie`) VALUES ('$id_admission','$id_seance','$nom','$prenom','$date','$pointage','$categorie')";
+
+        // dd($requete);
+        $stmt = $emUniv->getConnection()->prepare($requete);
+        $newstmt = $stmt->executeQuery(); 
+
     }
     $em->flush();
+
+
     return $list;
  }
 
- static function retraite_seance($list,$seance,$em)
+ static function retraite_seance($list,$seance,$em,$emUniv)
  {
     foreach($list as $etud){
         $xseance_absence = $em->getRepository(XseanceAbsences::class)->findOneBy(['ID_Admission'=>$etud['id_admission'],'ID_Séance'=>$seance]);
+        
+        // if(!$xseance_absence){
+        //     dd($etud['id_admission'] , $seance);
+        // }
+        
         $xseance_absence->setHeurePointage(new \DateTime($etud['pointage']));
         $xseance_absence->setCategorieSi($etud['categorie']);
         $em->persist($xseance_absence);
+
+        // update in local
+
+        // $id_admission = $etud['id_admission'];
+        // $pointage = (new \DateTime($etud['pointage']))->format("H:i:s");
+        // $categorie = $etud['categorie'];
+
+        // $requete = "UPDATE `xseance_absences` SET `heure_pointage`='$pointage',`categorie_si`='$categorie' WHERE `id_séance` = '$seance' AND `id_admission` = '$id_admission'";
+
+        // dd($requete);
+        // $stmt = $emUniv->getConnection()->prepare($requete);
+        // $newstmt = $stmt->executeQuery(); 
     }
     $em->flush();
     return $list;
  }
 
- static function remove($seance,$em)
+ static function remove($seance,$em,$emUniv)
  {
  
     $xseance_remove= "DELETE FROM `xseance` WHERE `id_séance`=$seance";
 
     
     $result1 = self::execute_query($xseance_remove,$em);
+
+    $xseance_remove_local= "DELETE FROM `xseance` WHERE `id_séance`=$seance";
+
+    
+    $result1 = self::execute_query($xseance_remove_local,$emUniv);
    
     $xseance_abs_remove= "DELETE FROM `xseance_absences` WHERE `id_séance`=$seance";
   
     $result2 = self::execute_query($xseance_abs_remove,$em);
+
+    $xseance_abs_remove_local= "DELETE FROM `xseance_absences` WHERE `id_séance`=$seance";
+  
+    $result2 = self::execute_query($xseance_abs_remove_local,$emUniv);
 
     return $seance;
  }
@@ -1124,10 +1212,10 @@ class ApiController extends AbstractController
         }
 
         if ($type == "traite") {
-            $xseance = self::insert_xseance($seance,$this->em);
-            $xseances = self::insert_xseance_absc($liste_etudiant_P,$seance,$this->em);                                                             
+            $xseance = self::insert_xseance($seance,$this->em,$this->emUniv);
+            $xseances = self::insert_xseance_absc($liste_etudiant_P,$seance,$this->em,$this->emUniv);                                                             
         }else {
-            $retraite_seance = self::retraite_seance($liste_etudiant_P,$seance,$this->em);                                                       
+            $retraite_seance = self::retraite_seance($liste_etudiant_P,$seance,$this->em,$this->emUniv);                                                       
         }
         $requete_count = self::coun_categorie($seance);
 // <<<<<<< HEAD
@@ -1167,7 +1255,7 @@ public function count_seance(Request $request,$seance)
 public function remove_seance(Request $request,$seance)
 {  
    
-    $counts =  self::remove($seance,$this->em);
+    $counts =  self::remove($seance,$this->em, $this->emUniv);
 
    return new JsonResponse("html");    
 }
@@ -1880,7 +1968,7 @@ if ($zk->connect() == 'true') {
                                     $checkinout->setUSERID($user->getUSERID());
                                     $checkinout->setSn($sn);
                                     $checkinout->setCHECKTIME($date_);
-                                    $checkinout->setMemoinfo("cpge");    
+                                    $checkinout->setMemoinfo("0809");    
                                     $em->persist($checkinout);
     
                                 }
